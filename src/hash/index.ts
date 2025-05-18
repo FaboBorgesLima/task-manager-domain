@@ -1,2 +1,2 @@
-export type { HashServiceInterface } from './hash.service.interface';
+export { HashServiceInterface } from './hash.service.interface';
 export { HashMockService } from './hash-mock.service';
