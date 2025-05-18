@@ -1,8 +1,8 @@
-import { DateRange } from '../../types/domain/date-range';
+import { DateRange } from '../types/date-range';
 import { Task } from './task';
 import { TaskCreateProps } from './types/task-create-props';
 import { TaskUpdateProps } from './types/task-update-props';
-import { User } from '../../user/domain/user';
+import { User } from '../user/';
 
 export interface TaskHttpAdapter {
   findOne(id: string, authorization: User): Promise<Task | null>;
