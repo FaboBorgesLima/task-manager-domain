@@ -1,13 +1,17 @@
 {
   "name": "task-manager-domain",
-  "version": "1.0.3",
+  "version": "1.0.7",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
-    ".": {
-      "import": "./dist/**/*.js",
-      "require": "./dist/**/*.js"
+    "./*": {
+      "import": "./dist/*/index.js",
+      "require": "./dist/*/index.js"
+    },
+    "./*/": {
+      "import": "./dist/*/index.js",
+      "require": "./dist/*/index.js"
     }
   },
   "scripts": {

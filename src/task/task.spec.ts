@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { User } from '../user/user';
 import { Task } from './task';
-import { TaskStatus } from './types/task-status.enum';
+import { TaskStatus } from './task-status.enum';
 import { HashMockService } from '../hash/hash-mock.service';
 
 describe('Task', () => {

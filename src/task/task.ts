@@ -2,7 +2,7 @@ import { User } from '../user/user';
 import { TaskConstructorProps } from './types/task-constructor-props';
 import { TaskCreateProps } from './types/task-create-props';
 import { TaskUpdateProps } from './types/task-update-props';
-import { TaskStatus } from './types/task-status.enum';
+import { TaskStatus } from './task-status.enum';
 
 export class Task {
   protected _id?: string;
