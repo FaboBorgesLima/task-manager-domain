@@ -1,6 +1,5 @@
 import { UserCreateProps } from './types/user-create-props';
 import { UserProps } from './types/user-props';
-import { HashServiceInterface } from '../hash/hash.service.interface';
 
 export class User {
   public id?: string;
@@ -9,8 +8,6 @@ export class User {
 
   protected _email: string;
 
-  protected _password: string;
-
   protected _createdAt: Date;
   public updatedAt: Date;
 
@@ -18,7 +15,6 @@ export class User {
     id,
     name,
     email,
-    password,
     createdAt = new Date(),
     updatedAt = new Date(),
   }: UserProps) {
@@ -26,7 +22,6 @@ export class User {
     this.id = id;
     this._email = email;
 
-    this._password = password;
     this._createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
@@ -39,15 +34,9 @@ export class User {
     return this._createdAt;
   }
 
-  public static create(
-    { name, email, password }: UserCreateProps,
-    hashService: HashServiceInterface,
-  ): User {
+  public static create({ name, email }: UserCreateProps): User {
     if (!this.isEmail(email)) {
       throw new Error('Invalid email format');
-    }
-    if (!User.isValidPassword(password)) {
-      throw new Error('Invalid password format');
     }
     if (!name || name.length < 3) {
       throw new Error('Name must be at least 3 characters long');
@@ -56,14 +45,9 @@ export class User {
     return new User({
       name,
       email,
-      password: hashService.make(password),
       createdAt: new Date(),
       updatedAt: new Date(),
     });
-  }
-
-  public static isValidPassword(password: string): boolean {
-    return password.length >= 6;
   }
 
   public static isEmail(email: string): boolean {
@@ -81,13 +65,6 @@ export class User {
 
   public canSee(user: User): boolean {
     return this.id === user.id;
-  }
-
-  public getPassword(): string {
-    return this._password;
-  }
-  get password(): string {
-    return this._password;
   }
 
   public setName(name: string, user: User): void {

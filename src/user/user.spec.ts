@@ -1,28 +1,20 @@
-import { faker } from '@faker-js/faker';
 import { User } from './user';
-import { HashMockService } from '../hash/hash-mock.service';
 
 describe('User', () => {
-  const hashService = HashMockService.getInstance();
   it('should be defined', () => {
     expect(
       new User({
         name: 'name',
         email: 'email@email.com',
-        password: faker.internet.password(),
       }),
     ).toBeDefined();
   });
 
   it('should create a user', () => {
-    const user = User.create(
-      {
-        name: 'name',
-        email: 'email@email.com',
-        password: faker.internet.password(),
-      },
-      hashService,
-    );
+    const user = User.create({
+      name: 'name',
+      email: 'email@email.com',
+    });
     expect(user).toBeDefined();
     expect(user.id).toBeUndefined();
     expect(user.getEmail()).toEqual('email@email.com');
@@ -31,26 +23,10 @@ describe('User', () => {
 
   it('should throw an error if email is invalid', () => {
     expect(() => {
-      User.create(
-        {
-          name: 'name',
-          email: 'invalid-email',
-          password: 'password',
-        },
-        hashService,
-      );
-    }).toThrow();
-  });
-  it('should throw an error if password is invalid', () => {
-    expect(() => {
-      User.create(
-        {
-          name: 'name',
-          email: 'email@email.com',
-          password: 'short',
-        },
-        hashService,
-      );
+      User.create({
+        name: 'name',
+        email: 'invalid-email',
+      });
     }).toThrow();
   });
 });

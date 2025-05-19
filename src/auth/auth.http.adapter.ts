@@ -1,7 +1,7 @@
 import { User } from '../user/user';
-import { AuthLoginProps } from './types/auth-login-props';
+import { AuthCredentials } from './types/auth-credentials';
 
 export interface AuthHttpAdapter {
-  login(props: AuthLoginProps): Promise<{ user: User; token: string }>;
+  login(props: AuthCredentials): Promise<{ user: User; token: string }>;
   me(authorization: string): Promise<User>;
 }

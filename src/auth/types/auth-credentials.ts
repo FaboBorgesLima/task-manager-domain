@@ -1,4 +1,4 @@
-export type AuthLoginProps = {
+export type AuthCredentials = {
   email: string;
   password: string;
 };

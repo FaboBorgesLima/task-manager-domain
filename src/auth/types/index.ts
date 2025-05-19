@@ -1,1 +1,1 @@
-export type { AuthLoginProps } from './auth-login-props';
+export type { AuthCredentials } from './auth-credentials';
