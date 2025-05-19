@@ -1,17 +1,22 @@
 import { User } from '../user';
-import { AuthValidateInterface } from './auth.repository.interface';
+import { CreadentialsServiceInterface } from './credentials.service.interface';
 import { AuthCredentials } from './types';
 
 export class AuthService {
-  public constructor(private readonly authRepository: AuthValidateInterface) {}
+  public constructor(
+    private readonly credentialsService: CreadentialsServiceInterface,
+  ) {}
 
   public async login(authLoginProps: AuthCredentials) {
-    const { token, user } = await this.authRepository.login(authLoginProps);
+    const { token, user } = await this.credentialsService.login(authLoginProps);
     return { user, token };
   }
 
   public async register(user: User, authLoginProps: AuthCredentials) {
-    const resgister = await this.authRepository.register(user, authLoginProps);
+    const resgister = await this.credentialsService.register(
+      user,
+      authLoginProps,
+    );
 
     return { user: resgister.user, token: resgister.token };
   }

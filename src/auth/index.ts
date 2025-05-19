@@ -1,2 +1,3 @@
 export type { AuthHttpAdapter } from './auth.http.adapter';
-export { AuthService as AbstractAuthService } from './abstract-auth.service';
+export { AuthService } from './auth.service';
+export { CreadentialsServiceInterface } from './credentials.service.interface';

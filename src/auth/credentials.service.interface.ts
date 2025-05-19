@@ -1,7 +1,7 @@
 import { User } from '../user';
 import { AuthCredentials } from './types';
 
-export interface AuthValidateInterface {
+export interface CreadentialsServiceInterface {
   login(validate: AuthCredentials): Promise<{ token: string; user: User }>;
   register(
     user: User,
@@ -9,4 +9,6 @@ export interface AuthValidateInterface {
   ): Promise<{ token: string; user: User }>;
 }
 
-export const AuthValidateInterface = Symbol('AuthValidateInterface');
+export const CreadentialsServiceInterface = Symbol(
+  'CreadentialsServiceInterface',
+);
