@@ -1,1 +1,1 @@
-export { AuthServiceInterface } from './auth.service.interface';
+export { AuthService } from './auth.service';

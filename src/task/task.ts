@@ -93,7 +93,7 @@ export class Task {
     this._id = value;
   }
 
-  public static create({
+  public static make({
     title,
     description,
     userId,
