@@ -30,10 +30,6 @@ export class User {
     return this._createdAt;
   }
 
-  public getCreatedAt(): Date {
-    return this._createdAt;
-  }
-
   public static create({ name, email }: UserCreateProps): User {
     if (!this.isEmail(email)) {
       throw new Error('Invalid email format');
@@ -78,14 +74,7 @@ export class User {
     return this._name;
   }
 
-  public getName(): string {
-    return this._name;
-  }
   get email(): string {
-    return this._email;
-  }
-
-  public getEmail(): string {
     return this._email;
   }
 

@@ -17,8 +17,8 @@ describe('User', () => {
     });
     expect(user).toBeDefined();
     expect(user.id).toBeUndefined();
-    expect(user.getEmail()).toEqual('email@email.com');
-    expect(user.getName()).toEqual('name');
+    expect(user.email).toEqual('email@email.com');
+    expect(user.name).toEqual('name');
   });
 
   it('should throw an error if email is invalid', () => {

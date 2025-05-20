@@ -1,14 +1,13 @@
 import { User } from '../user';
 import { AuthCredentials } from './types';
 
-export interface CreadentialsServiceInterface {
+export interface AuthServiceInterface {
   login(validate: AuthCredentials): Promise<{ token: string; user: User }>;
   register(
     user: User,
     validate: AuthCredentials,
   ): Promise<{ token: string; user: User }>;
+  fromToken(token: string): Promise<User>;
 }
 
-export const CreadentialsServiceInterface = Symbol(
-  'CreadentialsServiceInterface',
-);
+export const AuthServiceInterface = Symbol('AuthServiceInterface');
