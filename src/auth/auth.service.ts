@@ -2,13 +2,13 @@ import { DomainError } from '../error';
 import { User } from '../user';
 import { Auth } from './auth';
 import { AuthRepositoryInterface } from './auth.repository.interface';
-import { RegisterValidationInterface } from './register.validation.interface';
+import { EmailValidationServiceInterface } from './email-validation.service.interface';
 import { AuthCredentials } from './types';
 
 export class AuthService {
   constructor(
     private readonly authRepository: AuthRepositoryInterface,
-    private readonly registerValidation: RegisterValidationInterface,
+    private readonly registerValidation: EmailValidationServiceInterface,
   ) {}
 
   login(credentials: AuthCredentials): Promise<Auth> {
@@ -20,7 +20,10 @@ export class AuthService {
     credentials: AuthCredentials,
     validation: string,
   ): Promise<Auth> {
-    const isValid = await this.registerValidation.checkValidation(validation);
+    const isValid = await this.registerValidation.checkValidation(
+      user.email,
+      validation,
+    );
 
     if (!isValid) {
       throw new DomainError('Validation failed');
@@ -30,8 +33,12 @@ export class AuthService {
   }
 
   async sendValidation(user: User): Promise<boolean> {
-    await this.registerValidation.sendValidation(user);
+    await this.registerValidation.sendValidation(user.email);
 
     return true;
+  }
+
+  async fromToken(token: string): Promise<Auth> {
+    return await this.authRepository.fromToken(token);
   }
 }
