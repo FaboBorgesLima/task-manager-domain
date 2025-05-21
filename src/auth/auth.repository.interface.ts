@@ -8,3 +8,4 @@ export interface AuthRepositoryInterface {
   login(credentials: AuthCredentials): Promise<Auth>;
   register(user: User, credentials: AuthCredentials): Promise<Auth>;
 }
+export const AuthRepositoryInterface = Symbol('AuthRepositoryInterface');

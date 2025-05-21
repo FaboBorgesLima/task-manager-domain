@@ -162,6 +162,20 @@ export class Task {
     this._end = value;
   }
 
+  public getProps(): TaskConstructorProps {
+    return {
+      id: this._id,
+      title: this._title,
+      description: this._description,
+      status: this._status,
+      userId: this._userId,
+      createdAt: this.createdAt,
+      updatedAt: this._updatedAt,
+      start: this._start,
+      end: this._end,
+    };
+  }
+
   public setTaskToEntireDay(): void {
     this._start.setHours(0, 0, 0, 0);
 

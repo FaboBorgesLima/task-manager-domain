@@ -46,6 +46,16 @@ export class User {
     });
   }
 
+  public getProps(): UserProps {
+    return {
+      id: this.id,
+      name: this._name,
+      email: this._email,
+      createdAt: this._createdAt,
+      updatedAt: this.updatedAt,
+    };
+  }
+
   public static isEmail(email: string): boolean {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
