@@ -1,0 +1,58 @@
+import { UnauthorizedError } from '../error/unauthorized-error';
+import { User } from '../user';
+import { Task } from './task';
+import { TaskRepositoryInterface } from './task.repository.interface';
+
+export class TaskService {
+  constructor(
+    public readonly taskRepository: TaskRepositoryInterface, // Replace with actual repository type
+  ) {}
+
+  public async save(user: User, task: Task): Promise<Task> {
+    if (!task.canBeUpdated(user)) {
+      throw new UnauthorizedError(
+        'update',
+        'task',
+        `user ${user.id} cannot update task ${task.id}`,
+      );
+    }
+
+    const savedTask = await this.taskRepository.save(task);
+
+    return savedTask;
+  }
+
+  public async delete(user: User, task: Task): Promise<void> {
+    if (task.canBeDeleted(user)) {
+      throw new UnauthorizedError(
+        'delete',
+        'task',
+        `user ${user.id} cannot delete task ${task.id}`,
+      );
+    }
+
+    await this.taskRepository.delete(task.id as string);
+  }
+
+  public async findByUser(user: User): Promise<Task[]> {
+    return this.taskRepository.findByUser(user.id as string);
+  }
+
+  public async findById(user: User, id: string): Promise<Task | null> {
+    const task = await this.taskRepository.findById(id);
+
+    if (!task) {
+      return null;
+    }
+
+    if (!task.canBeViewed(user)) {
+      throw new UnauthorizedError(
+        'view',
+        'task',
+        `user ${user.id} cannot view task ${task.id}`,
+      );
+    }
+
+    return task;
+  }
+}
