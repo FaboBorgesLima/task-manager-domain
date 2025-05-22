@@ -3,6 +3,7 @@ import { TaskConstructorProps } from './types/task-constructor-props';
 import { TaskCreateProps } from './types/task-create-props';
 import { TaskUpdateProps } from './types/task-update-props';
 import { TaskStatus } from './task-status.enum';
+import { DomainError } from '../error';
 
 export class Task {
   protected _id?: string;
@@ -19,7 +20,7 @@ export class Task {
     this._id = params.id;
 
     if (!Task.isTitleValid(params.title)) {
-      throw new Error('Title must be at least 3 characters long');
+      throw new DomainError('Title must be at least 3 characters long');
     }
 
     this._title = params.title;
@@ -48,7 +49,7 @@ export class Task {
 
   set title(value: string) {
     if (!Task.isTitleValid(value)) {
-      throw new Error('Title must be at least 3 characters long');
+      throw new DomainError('Title must be at least 3 characters long');
     }
     this._title = value;
   }
@@ -63,7 +64,7 @@ export class Task {
 
   set status(value: TaskStatus) {
     if (!Task.isTaskStatus(value)) {
-      throw new Error('Invalid task status');
+      throw new DomainError('Invalid task status');
     }
 
     this._status = value;
@@ -75,7 +76,7 @@ export class Task {
 
   set description(value: string | undefined) {
     if (!Task.isDescriptionValid(value)) {
-      throw new Error('Description must be at least 3 characters long');
+      throw new DomainError('Description must be at least 3 characters long');
     }
 
     this._description = value;
@@ -102,7 +103,7 @@ export class Task {
     end,
   }: TaskCreateProps): Task {
     if (!this.isTitleValid(title)) {
-      throw new Error('Title must be at least 3 characters long');
+      throw new DomainError('Title must be at least 3 characters long');
     }
 
     return new Task({
@@ -193,7 +194,7 @@ export class Task {
   }: TaskUpdateProps): void {
     if (title) {
       if (!Task.isTitleValid(title)) {
-        throw new Error('Title must be at least 3 characters long');
+        throw new DomainError('Title must be at least 3 characters long');
       }
       this._title = title;
     }

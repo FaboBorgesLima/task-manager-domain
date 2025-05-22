@@ -1,4 +1,4 @@
-import { DomainError } from '../error';
+import { UnauthorizedError } from '../error/unauthorized-error';
 import { User } from '../user';
 import { Auth } from './auth';
 import { AuthRepositoryInterface } from './auth.repository.interface';
@@ -7,8 +7,8 @@ import { AuthCredentials } from './types';
 
 export class AuthService {
   constructor(
-    private readonly authRepository: AuthRepositoryInterface,
-    private readonly registerValidation: EmailValidationServiceInterface,
+    public readonly authRepository: AuthRepositoryInterface,
+    public readonly registerValidation: EmailValidationServiceInterface,
   ) {}
 
   login(credentials: AuthCredentials): Promise<Auth> {
@@ -26,7 +26,11 @@ export class AuthService {
     );
 
     if (!isValid) {
-      throw new DomainError('Validation failed');
+      throw new UnauthorizedError(
+        'register',
+        user.email,
+        'Invalid validation code',
+      );
     }
 
     return this.authRepository.register(user, credentials);
