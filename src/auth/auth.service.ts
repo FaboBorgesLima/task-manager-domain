@@ -36,8 +36,8 @@ export class AuthService {
     return this.authRepository.register(user, credentials);
   }
 
-  async sendValidation(user: User): Promise<boolean> {
-    await this.registerValidation.sendValidation(user.email);
+  async sendValidation(email: string): Promise<boolean> {
+    await this.registerValidation.sendValidation(email);
 
     return true;
   }
