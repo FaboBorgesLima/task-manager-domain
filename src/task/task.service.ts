@@ -34,8 +34,28 @@ export class TaskService {
     await this.taskRepository.delete(task.id as string);
   }
 
-  public async findByUser(user: User): Promise<Task[]> {
-    return this.taskRepository.findByUser(user.id as string);
+  public async findByUser(
+    user: User,
+    size: number,
+    page: number,
+  ): Promise<Task[]> {
+    return this.taskRepository.findByUser(user.id as string, size, page);
+  }
+
+  public async findByUserAndDate(
+    user: User,
+    start: Date,
+    end: Date,
+    size: number,
+    page: number,
+  ): Promise<Task[]> {
+    return this.taskRepository.findByUserAndDate(
+      user.id as string,
+      start,
+      end,
+      size,
+      page,
+    );
   }
 
   public async findById(user: User, id: string): Promise<Task | null> {
