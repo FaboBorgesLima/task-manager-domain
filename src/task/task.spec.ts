@@ -29,10 +29,10 @@ describe('Task', () => {
       title: 'Test Task',
       description: 'This is a test task',
       userId: user.id || '',
-      status: TaskStatus.PENDING,
       start: new Date(),
       end: new Date(),
     });
+
     expect(task).toBeDefined();
     expect(task.title).toBe('Test Task');
     expect(task.description).toBe('This is a test task');
