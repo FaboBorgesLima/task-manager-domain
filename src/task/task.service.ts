@@ -23,7 +23,7 @@ export class TaskService {
   }
 
   public async delete(user: User, task: Task): Promise<void> {
-    if (task.canBeDeleted(user)) {
+    if (!task.canBeDeleted(user)) {
       throw new UnauthorizedError(
         'delete',
         'task',
