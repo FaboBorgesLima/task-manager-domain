@@ -103,6 +103,25 @@ describe('TaskService', () => {
     expect(savedTask.userId).toEqual(task.userId);
   });
 
+  it('cannot find a task by ID not owned by the user', async () => {
+    const anotherUser = User.create({
+      name: 'Another User',
+      email: faker.internet.email(),
+    });
+    anotherUser.id = 'another-user-123'; // Mock another user ID for testing
+    const task = Task.make({
+      title: 'Test Task',
+      description: 'This is a test task',
+      userId: anotherUser.id as string,
+      start: new Date(),
+      end: new Date(),
+    });
+    const savedTask = await taskService.save(anotherUser, task);
+    await expect(
+      taskService.findById(user, savedTask.id as string),
+    ).rejects.toThrow();
+  });
+
   it('should find tasks by user', async () => {
     const task1 = Task.make({
       title: 'Task 1',
@@ -123,13 +142,14 @@ describe('TaskService', () => {
     await taskService.save(user, task1);
     await taskService.save(user, task2);
 
-    const tasks = await taskService.findByUser(user, 10, 0);
+    const tasks = await taskService.findByUser(user, user, 10, 0);
 
     expect(tasks).toBeDefined();
     expect(tasks.length).toBe(2);
     expect(tasks[0].title).toEqual(task1.title);
     expect(tasks[1].title).toEqual(task2.title);
   });
+
   describe('findById', () => {
     it('should find a task by ID', async () => {
       const task = Task.make({
@@ -154,6 +174,24 @@ describe('TaskService', () => {
     it('should return null if task not found', async () => {
       const foundTask = await taskService.findById(user, 'non-existing-id');
       expect(foundTask).toBeNull();
+    });
+    it('should throw an error if task not owned by user', async () => {
+      const anotherUser = User.create({
+        name: 'Another User',
+        email: faker.internet.email(),
+      });
+      anotherUser.id = 'another-user-123'; // Mock another user ID for testing
+      const task = Task.make({
+        title: 'Test Task',
+        description: 'This is a test task',
+        userId: anotherUser.id as string,
+        start: new Date(),
+        end: new Date(),
+      });
+      const savedTask = await taskService.save(anotherUser, task);
+      await expect(
+        taskService.findById(user, savedTask.id as string),
+      ).rejects.toThrow();
     });
   });
 });

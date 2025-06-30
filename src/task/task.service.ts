@@ -36,19 +36,37 @@ export class TaskService {
 
   public async findByUser(
     user: User,
+    viewer: User,
     size: number,
     page: number,
   ): Promise<Task[]> {
+    if (!viewer.canViewTasks(user)) {
+      throw new UnauthorizedError(
+        'view',
+        'task',
+        `user ${viewer.id} cannot view tasks of user ${user.id}`,
+      );
+    }
+
     return this.taskRepository.findByUser(user.id as string, size, page);
   }
 
   public async findByUserAndDate(
     user: User,
+    viewer: User,
     start: Date,
     end: Date,
     size: number,
     page: number,
   ): Promise<Task[]> {
+    if (!viewer.canViewTasks(user)) {
+      throw new UnauthorizedError(
+        'view',
+        'task',
+        `user ${viewer.id} cannot view tasks of user ${user.id}`,
+      );
+    }
+
     return this.taskRepository.findByUserAndDate(
       user.id as string,
       start,
@@ -58,18 +76,18 @@ export class TaskService {
     );
   }
 
-  public async findById(user: User, id: string): Promise<Task | null> {
+  public async findById(viewer: User, id: string): Promise<Task | null> {
     const task = await this.taskRepository.findById(id);
 
     if (!task) {
       return null;
     }
 
-    if (!task.canBeViewed(user)) {
+    if (!task.canBeViewed(viewer)) {
       throw new UnauthorizedError(
         'view',
         'task',
-        `user ${user.id} cannot view task ${task.id}`,
+        `user ${viewer.id} cannot view task ${task.id}`,
       );
     }
 
